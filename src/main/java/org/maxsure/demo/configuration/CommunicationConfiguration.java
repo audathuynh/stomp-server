@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -26,11 +29,29 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
  * @since 1.0
  */
 @Configuration
+@Slf4j
 public class CommunicationConfiguration {
 
+    @Bean("stompSession")
+    public StompSession stompSession(CommunicationConfigData configData) {
+        StompConfig stompConfig = configData.getStomp();
+        String baseURL = stompConfig.getBaseURL();
+        String endpoint = stompConfig.getEndpoint();
+        String subscribeURL = String.format("%s%s", baseURL, endpoint);
+
+        WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
+        StompSessionHandler sessionHandler = new StompSessionHandlerAdapter() {};
+        try {
+            return stompClient.connect(subscribeURL, sessionHandler).get();
+        } catch (Exception e) {
+            log.error("Error when connecting to Stomp", e);
+        }
+        return null;
+    }
+
     @Bean("stompMessageSender")
-    public MessageSender stompMessageSender(SimpMessagingTemplate simpTemplate) {
-        return new StompMessageSender(simpTemplate);
+    public MessageSender stompMessageSender(StompSession stompSession) {
+        return new StompMessageSender(stompSession);
     }
 
     @Bean("stompResponse")
@@ -44,21 +65,11 @@ public class CommunicationConfiguration {
                 topic);
     }
 
-    @Bean("webSocketClient")
-    WebSocketClient webSocketClient() {
-        return new StandardWebSocketClient();
-    }
-
     @Bean("stompMessageSubscriber")
     public MessageSubscriber stompMessageSubscriber(
-            CommunicationConfigData configData,
-            @Qualifier("webSocketClient") WebSocketClient webSocketClient,
+            @Qualifier("stompSession") StompSession stompSession,
             @Qualifier("taskExecutor") TaskExecutor taskExecutor) {
-        StompConfig stompConfig = configData.getStomp();
-        String baseURL = stompConfig.getBaseURL();
-        String endpoint = stompConfig.getEndpoint();
-        String subscribeURL = String.format("%s%s", baseURL, endpoint);
-        return new StompMessageSubscriber(webSocketClient, subscribeURL, taskExecutor);
+        return new StompMessageSubscriber(stompSession, taskExecutor);
     }
 
     @Bean("stomEchoListener")
