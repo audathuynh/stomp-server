@@ -16,6 +16,8 @@ public class CommunicationConfigData {
 
     private StompConfig stomp = new StompConfig();
 
+    private WebServiceConfig http = new WebServiceConfig();
+
     @Data
     public class StompConfig {
         private String baseURL;
@@ -24,6 +26,13 @@ public class CommunicationConfigData {
         private String topicPrefix;
         private String queuePrefix;
         private String[] allowedOrigins;
+    }
+
+    @Data
+    public class WebServiceConfig {
+        private String baseURL;
+        private String pubURI;
+        private String subURI;
     }
 
 }

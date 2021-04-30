@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SimpleEchoStompListener implements MessageListener {
 
-    private ScopedMessageSender messageSender;
+    private final ScopedMessageSender messageSender;
 
     public SimpleEchoStompListener(ScopedMessageSender messageSender) {
         this.messageSender = Preconditions.checkNotNull(messageSender, "messageSender");

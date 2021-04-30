@@ -58,13 +58,10 @@ public class BaseCommandTypeAdapterFactory implements TypeAdapterFactory {
             @Override
             public T read(JsonReader reader) throws IOException {
                 JsonElement jsonElement = Streams.parse(reader);
-
                 JsonElement commandTypeElement = jsonElement.getAsJsonObject().get("commandType");
-
                 if (Objects.isNull(commandTypeElement)) {
                     return delegate.fromJsonTree(jsonElement);
                 }
-
                 CommandType commandType = CommandType.valueOf(
                         commandTypeElement.getAsString().toUpperCase());
                 switch (commandType) {

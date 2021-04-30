@@ -37,8 +37,8 @@ public class StompMessageSubscriber implements MessageSubscriber {
                     taskExecutor.execute(() -> {
                         try {
                             listener.onMessage(dataBytes);
-                        } catch (Exception ex) {
-                            log.error("Error when handling message from Stomp", ex);
+                        } catch (Exception e) {
+                            log.error("Error when handling message from STOMP", e);
                         }
                     });
                 }

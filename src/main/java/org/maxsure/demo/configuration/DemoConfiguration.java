@@ -2,7 +2,7 @@ package org.maxsure.demo.configuration;
 
 import java.util.Date;
 import org.maxsure.demo.common.communication.MessageProcessor;
-import org.maxsure.demo.common.util.DateTimeDeserialiser;
+import org.maxsure.demo.common.encoding.json.DateTimeDeserialiser;
 import org.maxsure.demo.encoding.BaseCommandTypeAdapterFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

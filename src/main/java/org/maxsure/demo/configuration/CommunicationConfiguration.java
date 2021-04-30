@@ -19,6 +19,8 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +89,17 @@ public class CommunicationConfiguration {
         String topicPrefix = configData.getStomp().getTopicPrefix();
         return new StompMessageProcessorBuilder(topicPrefix, messageSubscriber)
                 .addBinding(requestTopic, stompEchoListener)
+                .build();
+    }
+
+    @Bean
+    public WebClient webClient(CommunicationConfigData configData) {
+        return WebClient.builder()
+                .exchangeStrategies(ExchangeStrategies.builder()
+                        .codecs(configurer -> configurer.defaultCodecs()
+                                .maxInMemorySize(1 * 1024 * 1024)) // 1mb
+                        .build())
+                .baseUrl(configData.getHttp().getBaseURL())
                 .build();
     }
 

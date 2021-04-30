@@ -19,9 +19,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     private final StompConfig stompConfig;
 
-    public WebSocketConfiguration(CommunicationConfigData commConfigData) {
-        Preconditions.checkNotNull(commConfigData, "commConfigData");
-        this.stompConfig = commConfigData.getStomp();
+    public WebSocketConfiguration(CommunicationConfigData configData) {
+        Preconditions.checkNotNull(configData, "configData");
+        this.stompConfig = configData.getStomp();
     }
 
     @Override

@@ -1,13 +1,12 @@
-package org.maxsure.stomp.server;
+package org.maxsure.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StompServerApplicationTests {
+class TestProgram {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {}
 
 }
