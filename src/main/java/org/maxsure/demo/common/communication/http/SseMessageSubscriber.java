@@ -64,26 +64,27 @@ public class SseMessageSubscriber implements MessageSubscriber {
                 .accept(MediaType.ALL)
                 .retrieve()
                 .bodyToFlux(elementType);
-        elementStream.subscribe(
-                element -> {
-                    if (Objects.isNull(element)) {
-                        return;
-                    }
-                    String data = element.data();
-                    if (Strings.isNullOrEmpty(data)) {
-                        return;
-                    }
-                    listeners.parallelStream()
-                            .forEach(listener -> executor.execute(() -> {
-                                try {
-                                    listener.onMessage(data.getBytes());
-                                } catch (Exception e) {
-                                    log.error("Error when handling a message from SSE", e);
-                                }
-                            }));
-                },
-                error -> log.error("Error when processing messages from SSE:\n{}", error),
-                () -> log.info("Processing messages from SSE completed."));
+        elementStream.filter(Objects::nonNull)
+                .subscribe(
+                        event -> {
+                            String id = event.id();
+                            String name = event.event();
+                            String data = event.data();
+                            String comment = event.comment();
+                            if (Strings.isNullOrEmpty(data)) {
+                                return;
+                            }
+                            listeners.parallelStream()
+                                    .forEach(listener -> executor.execute(() -> {
+                                        try {
+                                            listener.onMessage(data.getBytes());
+                                        } catch (Exception e) {
+                                            log.error("Error when handling a message from SSE", e);
+                                        }
+                                    }));
+                        },
+                        error -> log.error("Error when processing messages from SSE:\n{}", error),
+                        () -> log.info("Processing messages from SSE completed."));
         log.info("Subscribed the SSE topic: [{}]", topic);
     }
 
