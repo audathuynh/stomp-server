@@ -19,14 +19,14 @@ public class SpringStompMessageProcessorBuilder extends SpringMessageProcessorBu
      * Instantiates a new spring stomp message processor builder.
      *
      * @param topicPrefix the topic prefix
-     * @param messageSubscriber the message subscriber
+     * @param subscriber the message subscriber
      * @param appContext the app context
      */
     public SpringStompMessageProcessorBuilder(
             String topicPrefix,
-            MessageSubscriber messageSubscriber,
+            MessageSubscriber subscriber,
             ApplicationContext appContext) {
-        super(new StompMessageProcessorBuilder(topicPrefix, messageSubscriber), appContext);
+        super(new StompMessageProcessorBuilder(topicPrefix, subscriber), appContext);
     }
 
 }

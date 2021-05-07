@@ -14,10 +14,10 @@ import com.google.common.collect.Maps;
 public class MessageProcessorBuilderImpl implements MessageProcessorBuilder {
 
     private final Map<String, List<MessageListener>> registers;
-    private final MessageSubscriber messageSubscriber;
+    private final MessageSubscriber subscriber;
 
-    public MessageProcessorBuilderImpl(MessageSubscriber messageSubscriber) {
-        this.messageSubscriber = Preconditions.checkNotNull(messageSubscriber, "messageSubscriber");
+    public MessageProcessorBuilderImpl(MessageSubscriber subscriber) {
+        this.subscriber = Preconditions.checkNotNull(subscriber, "subscriber");
         this.registers = Maps.newConcurrentMap();
     }
 
@@ -36,7 +36,7 @@ public class MessageProcessorBuilderImpl implements MessageProcessorBuilder {
 
     @Override
     public MessageProcessor build() {
-        return new MessageProcessorImpl(messageSubscriber, registers);
+        return new MessageProcessorImpl(subscriber, registers);
     }
 
 }

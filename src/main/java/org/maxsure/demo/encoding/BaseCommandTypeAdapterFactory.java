@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonWriter;
  */
 public class BaseCommandTypeAdapterFactory implements TypeAdapterFactory {
 
-    private Map<String, TypeAdapter<?>> typeToDelegate = Maps.newLinkedHashMap();
+    private final Map<String, TypeAdapter<?>> typeToDelegate = Maps.newLinkedHashMap();
 
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {

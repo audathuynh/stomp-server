@@ -7,7 +7,7 @@ package org.maxsure.demo.common.communication;
  */
 public interface MessageProcessorBuilder {
 
-    MessageProcessorBuilder addBinding(String topic, MessageListener messageListener);
+    MessageProcessorBuilder addBinding(String topic, MessageListener listener);
 
     MessageProcessor build();
 

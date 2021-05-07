@@ -20,18 +20,18 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/")
 public class HomeController {
 
-    private final int heartbeatIntervalInSeconds;
+    private final int interval;
 
     public HomeController(
-            @Value("${org.maxsure.demo.heartbeat.interval:5}") int heartbeatIntervalInSeconds) {
-        this.heartbeatIntervalInSeconds = heartbeatIntervalInSeconds;
+            @Value("${org.maxsure.demo.heartbeat.interval:5}") int interval) {
+        this.interval = interval;
     }
 
     @GetMapping("/heartbeat")
     public Flux<ServerSentEvent<byte[]>> streamHeartbeatEvents() {
         DateTimeFormatter formatter =
                 DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.systemDefault());
-        return Flux.interval(Duration.ofSeconds(heartbeatIntervalInSeconds))
+        return Flux.interval(Duration.ofSeconds(interval))
                 .map(num -> ServerSentEvent.<byte[]>builder()
                         .id(String.valueOf(num))
                         .event("heatbeat")

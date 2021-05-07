@@ -11,19 +11,19 @@ import com.google.common.base.Preconditions;
  */
 public class MessageProcessorImpl implements MessageProcessor {
 
-    private MessageSubscriber messageSubscriber;
+    private MessageSubscriber subscriber;
     private Map<String, List<MessageListener>> registers;
 
     public MessageProcessorImpl(
-            MessageSubscriber messageSubscriber,
+            MessageSubscriber subscriber,
             Map<String, List<MessageListener>> registers) {
-        this.messageSubscriber = Preconditions.checkNotNull(messageSubscriber, "messageSubscriber");
+        this.subscriber = Preconditions.checkNotNull(subscriber, "subscriber");
         this.registers = Preconditions.checkNotNull(registers, "register");
     }
 
     @Override
     public void subscribeAll() {
-        registers.forEach(messageSubscriber::subscribe);
+        registers.forEach(subscriber::subscribe);
     }
 
 }

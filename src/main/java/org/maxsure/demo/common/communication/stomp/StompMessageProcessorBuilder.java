@@ -17,15 +17,15 @@ public class StompMessageProcessorBuilder implements MessageProcessorBuilder {
     private final MessageProcessorBuilder messageProcessorBuilder;
     private final String topicPrefix;
 
-    public StompMessageProcessorBuilder(String topicPrefix, MessageSubscriber messageSubscriber) {
+    public StompMessageProcessorBuilder(String topicPrefix, MessageSubscriber subscriber) {
         this.topicPrefix = Preconditions.checkNotNull(topicPrefix, "topicPrefix");
-        this.messageProcessorBuilder = new MessageProcessorBuilderImpl(messageSubscriber);
+        this.messageProcessorBuilder = new MessageProcessorBuilderImpl(subscriber);
     }
 
     @Override
-    public MessageProcessorBuilder addBinding(String topic, MessageListener messageListener) {
+    public MessageProcessorBuilder addBinding(String topic, MessageListener listener) {
         String subTopic = String.format("%s/%s", topicPrefix, topic);
-        return messageProcessorBuilder.addBinding(subTopic, messageListener);
+        return messageProcessorBuilder.addBinding(subTopic, listener);
     }
 
     @Override

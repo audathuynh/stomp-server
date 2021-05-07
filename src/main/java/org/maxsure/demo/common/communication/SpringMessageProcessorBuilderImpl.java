@@ -24,10 +24,10 @@ public class SpringMessageProcessorBuilderImpl implements SpringMessageProcessor
      * @param appContext the app context
      */
     public SpringMessageProcessorBuilderImpl(
-            MessageSubscriber messageSubscriber,
+            MessageSubscriber subscriber,
             ApplicationContext appContext) {
         this.appContext = Preconditions.checkNotNull(appContext, "appContext");
-        this.messageProcessorBuilder = new MessageProcessorBuilderImpl(messageSubscriber);
+        this.messageProcessorBuilder = new MessageProcessorBuilderImpl(subscriber);
     }
 
     public SpringMessageProcessorBuilderImpl(
@@ -43,12 +43,12 @@ public class SpringMessageProcessorBuilderImpl implements SpringMessageProcessor
      * Adds the binding between a topic and a listener.
      *
      * @param topic the topic
-     * @param messageListener the message listener
+     * @param listener the message listener
      * @return the current message processor builder
      */
     @Override
-    public MessageProcessorBuilder addBinding(String topic, MessageListener messageListener) {
-        return messageProcessorBuilder.addBinding(topic, messageListener);
+    public MessageProcessorBuilder addBinding(String topic, MessageListener listener) {
+        return messageProcessorBuilder.addBinding(topic, listener);
     }
 
     /**
