@@ -1,6 +1,6 @@
 package org.maxsure.demo.common.communication;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 
@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface MessageSubscriber {
 
-    void subscribe(String topic, List<MessageListener> listeners);
+    void subscribe(String topic, Collection<MessageListener> listeners);
 
 }

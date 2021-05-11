@@ -1,6 +1,6 @@
 package org.maxsure.demo.common.communication.http;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import org.apache.logging.log4j.message.FormattedMessage;
 import org.maxsure.demo.common.communication.MessageListener;
@@ -54,7 +54,7 @@ public class SseMessageSubscriber implements MessageSubscriber {
      * @param listeners the listeners
      */
     @Override
-    public void subscribe(String topic, List<MessageListener> listeners) {
+    public void subscribe(String topic, Collection<MessageListener> listeners) {
         FormattedMessage subscribedURI = new FormattedMessage(uriPattern, topic);
         String uri = subscribedURI.getFormattedMessage();
         ParameterizedTypeReference<ServerSentEvent<String>> elementType =

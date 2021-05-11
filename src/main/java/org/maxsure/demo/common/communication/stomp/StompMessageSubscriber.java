@@ -1,7 +1,7 @@
 package org.maxsure.demo.common.communication.stomp;
 
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Collection;
 import org.maxsure.demo.common.communication.MessageListener;
 import org.maxsure.demo.common.communication.MessageSubscriber;
 import org.springframework.core.task.TaskExecutor;
@@ -28,7 +28,7 @@ public class StompMessageSubscriber implements MessageSubscriber {
     }
 
     @Override
-    public void subscribe(String topic, List<MessageListener> listeners) {
+    public void subscribe(String topic, Collection<MessageListener> listeners) {
         stompSession.subscribe(topic, new StompFrameHandler() {
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
