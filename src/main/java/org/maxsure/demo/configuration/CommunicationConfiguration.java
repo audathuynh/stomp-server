@@ -39,12 +39,12 @@ public class CommunicationConfiguration {
         StompConfig stompConfig = configData.getStomp();
         String baseURL = stompConfig.getBaseURL();
         String endpoint = stompConfig.getEndpoint();
-        String subscribeURL = String.format("%s%s", baseURL, endpoint);
+        String url = String.format("%s%s", baseURL, endpoint);
 
         WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
         StompSessionHandler sessionHandler = new StompSessionHandlerAdapter() {};
         try {
-            return stompClient.connect(subscribeURL, sessionHandler).get();
+            return stompClient.connect(url, sessionHandler).get();
         } catch (Exception e) {
             log.error("Error when connecting to Stomp", e);
         }
